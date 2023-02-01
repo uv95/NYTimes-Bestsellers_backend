@@ -65,27 +65,13 @@ exports.addToFinished = catchAsync(async (req, res, next) => {
   }
 });
 
-exports.removeFromBookmarks = catchAsync(async (req, res, next) => {
-  const book = await MarkedBook.findById(req.params.id);
-
-  if (!book) return next(new AppError('No book found!', 404));
-
-  book.isBookmarked = false;
-  await book.save();
-
-  res.status(200).json({
-    status: 'success',
-    data: book,
+exports.updateMarkedBook = catchAsync(async (req, res, next) => {
+  const book = await MarkedBook.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+    runValidators: true,
   });
-});
-
-exports.removeFromFinished = catchAsync(async (req, res, next) => {
-  const book = await MarkedBook.findById(req.params.id);
 
   if (!book) return next(new AppError('No book found!', 404));
-
-  book.isFinished = false;
-  await book.save();
 
   res.status(200).json({
     status: 'success',

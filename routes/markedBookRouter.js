@@ -11,20 +11,12 @@ router.route('/').get(markedBookController.getAllMarkedBooks);
 router
   .route('/bookmarks')
   .post(markedBookController.setUserId, markedBookController.addToBookmarks);
-router
-  .route('/bookmarks/:id')
-  .patch(
-    markedBookController.setUserId,
-    markedBookController.removeFromBookmarks
-  );
+
 router
   .route('/finished')
   .post(markedBookController.setUserId, markedBookController.addToFinished);
 router
-  .route('/finished/:id')
-  .patch(
-    markedBookController.setUserId,
-    markedBookController.removeFromFinished
-  );
+  .route('/:id')
+  .patch(markedBookController.setUserId, markedBookController.updateMarkedBook);
 
 module.exports = router;
