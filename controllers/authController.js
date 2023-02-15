@@ -99,12 +99,12 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
     'host'
   )}/users/resetPassword/${resetToken}`;
 
-  const message = `Forgot your password? Submit a PATCH request with your new password and confirmPassword to: ${resetURL}.\nIf you didn't forget your password, ignore this email.`;
+  const message = `Forgot your password? Click here to reset: ${resetURL}.\nIf you didn't forget your password, ignore this email.`;
 
   try {
     await sendEmail({
       email: user.email,
-      subject: 'Your password reset token (valid for 10min)',
+      subject: 'Password reset',
       message,
     });
 
@@ -116,7 +116,6 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
     user.passwordResetToken = undefined;
     user.passwordResetExpires = undefined;
     await user.save({ validateBeforeSave: false });
-
     return next(new AppError('Something went wrong. Please try again.', 500));
   }
 });
