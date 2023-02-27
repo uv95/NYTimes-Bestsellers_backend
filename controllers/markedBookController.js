@@ -1,7 +1,6 @@
 const MarkedBook = require('../models/markedBookModel');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
-const factory = require('./handlerFactory');
 
 exports.setUserId = (req, res, next) => {
   if (!req.body.user) req.body.user = req.user.id;
@@ -79,4 +78,12 @@ exports.updateMarkedBook = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.getAllMarkedBooks = factory.getAll(MarkedBook);
+exports.getAllMarkedBooks = catchAsync(async (req, res, next) => {
+  const markedBooks = await MarkedBook.find({ user: req.user.id });
+  console.log(req.user.id, 'getAllMarkedBooks');
+
+  res.status(200).json({
+    status: 'success',
+    data: { data: markedBooks },
+  });
+});
