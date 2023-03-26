@@ -11,6 +11,7 @@ exports.addToBookmarks = catchAsync(async (req, res, next) => {
   const book = await MarkedBook.findOne({
     title: req.body.title,
     author: req.body.author,
+    user: req.body.user,
   });
 
   if (book) {
@@ -39,6 +40,7 @@ exports.addToFinished = catchAsync(async (req, res, next) => {
   const book = await MarkedBook.findOne({
     title: req.body.title,
     author: req.body.author,
+    user: req.body.user,
   });
 
   if (book) {
@@ -80,7 +82,6 @@ exports.updateMarkedBook = catchAsync(async (req, res, next) => {
 
 exports.getAllMarkedBooks = catchAsync(async (req, res, next) => {
   const markedBooks = await MarkedBook.find({ user: req.user.id });
-  console.log(req.user.id, 'getAllMarkedBooks');
 
   res.status(200).json({
     status: 'success',
